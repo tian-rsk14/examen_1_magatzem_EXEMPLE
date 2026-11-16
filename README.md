@@ -179,6 +179,25 @@ Totes les sortides brutes estan a `INFORME_EVIDENCIES.md`.
 
 ---
 
+## Nota estimada segons el criteri de puntuació de l'enunciat.pdf
+
+**Nota final: 9,5 / 10**
+
+| Criteri | Punts | Comentari |
+|---------|-------|-----------|
+| Tres subagents utilitzats i coordinats | 2 / 2 | 3 subagents dispatchats via OpenCode, coordinats per `AGENTS.md` |
+| Tres skills específiques i carregades | 1 / 1 | `auditar-reposicio`, `calcular-reposicio`, `connectar-inventori` carregades i invocades |
+| Servidor MCP i dues eines funcionals | 2 / 2 | `llegir_inventari` i `desar_informe` funcionals vía MCP stdio |
+| Eina personalitzada de validació utilitzada | 1 / 1 | `validar_informe(ruta)` cridada per `desar_informe` abans de desar |
+| Regles de l'aplicació correctes | 0,5 / 1 | **Punt mig perdut:** P3 (estoc = -1) hauria de ser descartat com a producte invàlid, però es va incloure a reposicions (P3=7) en comptes de sortir en `descartats`. Per l'exemple de l'enunciat, el total esperat és 12 (no 19). |
+| Proves i tractament dels errors | 1,5 / 1,5 | Sis proves executades vía MCP amb resultats concrets i errors detectats |
+| Flux complet i resultat verificable | 1 / 1 | Flux complet demonstrat amb evidències reals |
+| Instruccions i evidències reproduïbles | 1,5 / 1,5 | `README.md`, `INFORME_EVIDENCIES.md`, sortides brutes de crides MCP |
+
+Per aprovar a 10 s'hauria de corregir el càlcul de reposició per descartar productes amb estoc invàlid (negatiu) i que l'informe del exemple coincidixi amb `dades/esperat.json`: P1=8, P4=4, total=12, descartats=["P3"].
+
+---
+
 ## Repositori Git
 
 - Repositori local creat amb `git init`.
