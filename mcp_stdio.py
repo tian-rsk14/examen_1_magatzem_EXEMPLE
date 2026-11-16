@@ -64,8 +64,14 @@ class MCPServer:
 
     @staticmethod
     def tool_result(value, error):
-        return {"content": [{"type": "text", "text": json.dumps(value, ensure_ascii=False)}],
-                "structuredContent": value, "isError": error}
+        # El spec MCP i OpenCode exigeixen que structuredContent sigui un
+        # registre (objecte). Només s'inclou quan value ho és; en cas contrari
+        # (per exemple una llista) el client fa fallback a content[0]["text"].
+        result = {"content": [{"type": "text", "text": json.dumps(value, ensure_ascii=False)}],
+                  "isError": error}
+        if isinstance(value, dict):
+            result["structuredContent"] = value
+        return result
 
     @staticmethod
     def error(request_id, code, message):
