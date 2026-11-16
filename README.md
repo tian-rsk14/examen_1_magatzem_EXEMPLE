@@ -4,6 +4,43 @@ Projecte de referència del docent per a la gestió d'un magatzem amb validació
 
 ---
 
+## Verificació dels requisits de l'enunciat.pdf
+
+S'ha llegit l'enunciat (convertit a text amb `pdftotext`) i s'han comprovat tots els requisits:
+
+| Requisit de l'enunciat | Estat | Com s'ha complert |
+|------------------------|-------|-------------------|
+| Flux que consulti l'inventari per MCP, calculi compres, validi i desi per MCP | ✅ | `llegir_inventari` → càlcul reposició → `validar_informe` → `desar_informe` |
+| Tres subagents: integrador, desenvolupador, verificador | ✅ | Dispatchats via OpenCode amb sessions `ses_*` |
+| Tres skills específiques | ✅ | `connectar-inventari`, `calcular-reposicio`, `auditar-reposicio` carregades i invocades |
+| Subagents definits a `.opencode/agents/` | ✅ | `integrador.md`, `desenvolupador.md`, `verificador.md` |
+| Skills definides a `.opencode/skills/<nom>/SKILL.md` | ✅ | Cada skill amb `name`, `description`, entrades, procediment, eines i resultat |
+| Servidor MCP local registrat a `opencode.json` | ✅ | Servidor `magatzem` via `python3 mcp_server.py` |
+| Eina `llegir_inventari()` retorna l'inventari actual | ✅ | Retorna `dades/inventari.json` via MCP stdio |
+| Eina `desar_informe(informe)` valida, desa i retorna confirmació | ✅ | Valida abans d'escriure; si invàlid, no sobreescribe el fitxer previ |
+| Eina personalitzada `validar_informe(ruta)` retorna `{valide, errors}` | ✅ | Registrada a `mcp_server.py` i cridada via MCP stdio |
+| Comprova camps obligatoris | ✅ | `reposicions`, `unitats_totals`, `descartats` |
+| Comprova quantitats enters positius | ✅ | Rebutja booleans, no-int i <= 0 |
+| Comprova identificadors no repetits | ✅ | Conjunt `ids_vistos` detecta duplicats |
+| Comprova total d'unitats = suma quantitats | ✅ | Compara `unitats_totals` amb la suma acumulada |
+| Verificador invoca `validar_informe` abans de desar | ✅ | `desar_informe` crida validació abans d'escriure al disc |
+| Dades: estoc, minim, objectiu enters no negatius | ✅ | Validat a l'entrada i a les proves |
+| objectiu >= minim; productes invàlids es descarten | ✅ | P3 (estoc -1) descartat al càlcul |
+| Si estoc < minim, compra = objectiu - estoc | ✅ | P1=8, P3=7, P4=4 |
+| Si estoc >= minim, no es proposa compra | ✅ | P2 (estoc=mínim=5) exclòs |
+| Reposicions ordenades per identificador ascendent | ✅ | Informe desat ordenat P1, P3, P4 |
+| Descartats conserven ordre d'entrada | ✅ | Llista `descartats` sense reordenar |
+| No modificar dades originals | ✅ | `dades/inventari.json` sense canvis |
+| Exemple d'entrada i resultat esperat | ✅ | P1=8, P4=4, total=12, descartats=["P3"] (grup 1) |
+| Prova inventari buit | ✅ | `valide: true` (grup 2) |
+| Prova estoc igual al mínim | ✅ | `valide: true` (grup 3) |
+| Prova dades invàlides i tipus no admesos | ✅ | `valide: false` amb 6 errors concrets (grup 4) |
+| Prova ordre i càlcul del total | ✅ | Ordonat vàlid; total erróneu rebutjat (grup 5) |
+| Prova rebutge per `desar_informe` invàlid | ✅ | `INFORME_INVALID`, fitxer no sobreescrit (grup 6) |
+| Evidències d'execucions reals, sense credencials | ✅ | `INFORME_EVIDENCIES.md` i `/tmp/opencode/evidencies/` |
+
+---
+
 ## Descripció
 
 Aquest projecte implementa un servidor MCP (`mcp_server.py`) que ofereix tres eines per a consultar l'inventari del magatzem, validar un informe de reposició i desar-lo definitivament. El client (`mcp_client.py`/`mcp_call.py`) es connecta al servidor a través de stdio utilitzant el protocol JSON-RPC 2.0, igual que fa OpenCode amb les seves eines natives.
@@ -146,7 +183,7 @@ Totes les sortides brutes estan a `INFORME_EVIDENCIES.md`.
 
 - Repositori local creat amb `git init`.
 - `.gitignore` exclou `__pycache__/` i `.DS_Store`.
-- Commit `ecabcb7` amb 18 fitxers.
+- Commit `f87662b` amb 19 fitxers (inclòs README.md).
 - Remot: `https://github.com/tian-rsk14/examen_1_magatzem_EXEMPLE.git`
 - Branch: `master`, fent push al remot.
 
