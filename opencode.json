@@ -1,0 +1,13 @@
+{
+  "mcp": {
+    "servers": {
+      "magatzem": {
+        "type": "local",
+        "command": [
+          "/usr/bin/python3",
+          "/home/riku/joan/repaso_examen/examen_1_magatzem_EXEMPLE/mcp_server.py"
+        ]
+      }
+    }
+  }
+}

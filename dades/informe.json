@@ -1,0 +1,18 @@
+{
+  "reposicions": [
+    {
+      "id": "P1",
+      "quantitat": 8
+    },
+    {
+      "id": "P3",
+      "quantitat": 7
+    },
+    {
+      "id": "P4",
+      "quantitat": 4
+    }
+  ],
+  "unitats_totals": 19,
+  "descartats": []
+}
